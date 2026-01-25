@@ -43,11 +43,22 @@ export const STRIPE_CONFIG = {
     PAYMENT_METHODS: ['card'],
     
     // URLs for success and cancellation
-    // Success page shows confirmation then auto-redirects to orders
-    // IMPORTANT: {CHECKOUT_SESSION_ID} is a Stripe placeholder that gets replaced with the actual session ID
-    getSuccessUrl: () => `${process.env.FRONTEND_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+    // Validate CLIENT_URL is set in production
+    getSuccessUrl: () => {
+        const frontendUrl = process.env.CLIENT_URL || process.env.FRONTEND_URL;
+        if (!frontendUrl && process.env.NODE_ENV === 'production') {
+            throw new Error('CLIENT_URL or FRONTEND_URL must be set for Stripe redirect URLs');
+        }
+        return `${frontendUrl || 'http://localhost:5173'}/checkout/success?session_id={CHECKOUT_SESSION_ID}`;
+    },
     // Cancel page route
-    getCancelUrl: () => `${process.env.FRONTEND_URL}/checkout/cancel`,
+    getCancelUrl: () => {
+        const frontendUrl = process.env.CLIENT_URL || process.env.FRONTEND_URL;
+        if (!frontendUrl && process.env.NODE_ENV === 'production') {
+            throw new Error('CLIENT_URL or FRONTEND_URL must be set for Stripe redirect URLs');
+        }
+        return `${frontendUrl || 'http://localhost:5173'}/checkout/cancel`;
+    },
 };
 
 export default stripe;

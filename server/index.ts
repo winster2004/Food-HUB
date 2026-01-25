@@ -1,7 +1,21 @@
 // Load environment variables FIRST before any other imports
+// On Render: .env file won't exist, so config will skip silently
+// In development: .env file loads local config
 import dotenv from "dotenv";
 import path from "path";
-dotenv.config({ path: path.resolve(__dirname, ".env") });
+import fs from "fs";
+
+// Only try to load .env if it exists (safe for production)
+const envPath = path.resolve(__dirname, ".env");
+if (fs.existsSync(envPath)) {
+    dotenv.config({ path: envPath });
+} else {
+    // In production, env vars are provided by platform (Render)
+    // In development, .env MUST exist
+    if (process.env.NODE_ENV !== 'production') {
+        console.warn('⚠️ .env file not found. Using environment variables from process.');
+    }
+}
 
 import express from "express";
 import connectDB from "./db/connectDB";
@@ -30,8 +44,15 @@ app.use(bodyParser.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.json());
 app.use(cookieParser());
+
+// Validate CORS origin is configured in production
+const clientUrl = process.env.CLIENT_URL || process.env.FRONTEND_URL;
+if (!clientUrl && process.env.NODE_ENV === 'production') {
+    throw new Error('CLIENT_URL or FRONTEND_URL must be set in production environment');
+}
+
 const corsOptions = {
-    origin: process.env.CLIENT_URL || process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: clientUrl || "http://localhost:5173",
     credentials: true,
 };
 app.use(cors(corsOptions));
@@ -40,8 +61,11 @@ app.use(cors(corsOptions));
 console.log("🚀 Server Configuration:");
 console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
 console.log(`🌐 CORS Origin: ${corsOptions.origin}`);
-console.log(`📧 Resend Email From: ${process.env.RESEND_FROM_EMAIL}`);
+console.log(`📧 Resend Email From: ${process.env.RESEND_FROM_EMAIL || '❌ NOT SET'}`);
 console.log(`🔑 Resend API Key configured: ${process.env.RESEND_API_KEY ? '✅' : '❌'}`);
+console.log(`🌍 Frontend URL (CLIENT_URL): ${process.env.CLIENT_URL || process.env.FRONTEND_URL || '❌ NOT SET'}`);
+console.log(`🔐 Stripe Secret Key configured: ${process.env.STRIPE_SECRET_KEY ? '✅' : '❌'}`);
+console.log(`📦 Database connected: Connecting...`);
 
 // Health check
 app.get("/", (_, res) => {

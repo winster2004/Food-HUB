@@ -159,7 +159,9 @@ export const forgotPassword = async (req: Request, res: Response) => {
         user.resetPasswordTokenExpiresAt = resetTokenExpiresAt;
         await user.save();
 
-        const resetUrl = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
+        // Use CLIENT_URL for frontend links, fallback to FRONTEND_URL
+        const frontendUrl = process.env.CLIENT_URL || process.env.FRONTEND_URL || 'http://localhost:5173';
+        const resetUrl = `${frontendUrl}/resetpassword/${resetToken}`;
         await sendPasswordResetEmailResend(user.email, resetUrl);
 
         return res.status(200).json({
