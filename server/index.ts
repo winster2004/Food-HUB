@@ -22,8 +22,6 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-const DIRNAME = path.resolve();
-
 // Stripe webhook must receive raw body for signature verification
 app.post("/api/v1/order/webhook", express.raw({ type: "application/json" }), stripeWebhook);
 
@@ -45,6 +43,16 @@ console.log(`🌐 CORS Origin: ${corsOptions.origin}`);
 console.log(`📧 Resend Email From: ${process.env.RESEND_FROM_EMAIL}`);
 console.log(`🔑 Resend API Key configured: ${process.env.RESEND_API_KEY ? '✅' : '❌'}`);
 
+// Health check
+app.get("/", (_, res) => {
+    res.send("Food Hub API is running 🚀");
+});
+
+// JSON health endpoint for probes
+app.get("/healthz", (_, res) => {
+    res.json({ status: "ok" });
+});
+
 // api
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/restaurant", restaurantRoute);
@@ -55,11 +63,6 @@ app.use("/api/v1/menu", menuRoute);
 app.use("/api/v1/order", orderRoute);
 // Mandatory endpoint: /api/payment/create-checkout-session
 app.use("/api/payment", paymentRoute);
-
-app.use(express.static(path.join(DIRNAME,"/client/dist")));
-app.use("*",(_,res) => {
-    res.sendFile(path.resolve(DIRNAME, "client","dist","index.html"));
-});
 
 app.listen(PORT, () => {
     connectDB();
