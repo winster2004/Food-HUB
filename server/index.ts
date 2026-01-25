@@ -54,6 +54,7 @@ if (!clientUrl && process.env.NODE_ENV === 'production') {
 const corsOptions = {
     origin: [
         "http://localhost:5173",
+        "https://food-hub-3-qkq3.onrender.com",
         clientUrl || "http://localhost:5173"
     ],
     credentials: true,
