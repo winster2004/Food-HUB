@@ -52,7 +52,10 @@ if (!clientUrl && process.env.NODE_ENV === 'production') {
 }
 
 const corsOptions = {
-    origin: clientUrl || "http://localhost:5173",
+    origin: [
+        "http://localhost:5173",
+        clientUrl || "http://localhost:5173"
+    ],
     credentials: true,
 };
 app.use(cors(corsOptions));
