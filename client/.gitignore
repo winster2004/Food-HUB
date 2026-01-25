@@ -1,0 +1,76 @@
+# ====================================
+# Dependencies
+# ====================================
+node_modules/
+
+# ====================================
+# Environment Variables (SENSITIVE)
+# ====================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+
+# Keep production env example
+!.env.production
+!.env.example
+
+# ====================================
+# Build Output
+# ====================================
+dist/
+dist-ssr/
+build/
+*.tsbuildinfo
+
+# ====================================
+# Logs
+# ====================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ====================================
+# Vite
+# ====================================
+.vite/
+vite.config.*.timestamp-*
+
+# ====================================
+# Testing
+# ====================================
+coverage/
+.nyc_output/
+
+# ====================================
+# Editor directories and files
+# ====================================
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+*.swo
+
+# ====================================
+# OS Files
+# ====================================
+Thumbs.db
+desktop.ini
+
+# ====================================
+# Temporary
+# ====================================
+*.tmp
+*.temp
+.cache/

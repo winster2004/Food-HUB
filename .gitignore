@@ -1,0 +1,113 @@
+# ====================================
+# Dependencies
+# ====================================
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# ====================================
+# Environment Variables (SENSITIVE)
+# ====================================
+.env
+.env.local
+.env.*.local
+client/.env
+client/.env.local
+server/.env
+server/.env.local
+
+# Keep example files for reference
+!.env.example
+!client/.env.example
+!server/.env.example
+!.env.production
+!client/.env.production
+
+# ====================================
+# Build Outputs
+# ====================================
+dist/
+client/dist/
+server/dist/
+build/
+*.tsbuildinfo
+
+# ====================================
+# Logs
+# ====================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ====================================
+# OS Files
+# ====================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ====================================
+# IDE / Editor
+# ====================================
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*.swn
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# ====================================
+# Testing
+# ====================================
+coverage/
+.nyc_output/
+
+# ====================================
+# Temporary Files
+# ====================================
+*.tmp
+*.temp
+.cache/
+.parcel-cache/
+
+# ====================================
+# Uploads (if storing locally)
+# ====================================
+# Uncomment if you want to ignore uploads
+# uploads/
+# server/uploads/
+
+# ====================================
+# Documentation (if auto-generated)
+# ====================================
+# Keep markdown files - they're important!
+# Only ignore if they're auto-generated:
+# docs/api/
+
+# ====================================
+# Render Specific
+# ====================================
+.render/
+
+# ====================================
+# Package Manager
+# ====================================
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.yarn/
+.pnpm-store/
+
+# Keep these package files - they're essential!
+!package.json
+!client/package.json
+!server/package.json
